@@ -57,6 +57,9 @@
                     Yenilənmə tarixi
                     <span :class="{ 'rotate-icon': sortKey === 'updatedAt' && sortOrder === 'desc' }">▲</span>
                 </th>
+                <th>
+                    Çap
+                </th>
             </tr>
     </thead>
         <tbody>
@@ -76,6 +79,9 @@
             <td>{{ order.signature }}</td>
             <td>{{ order.createdAt }}</td>
             <td>{{ order.updatedAt }}</td>
+            <td>
+              <button class="btn btn-success"><i class="fas fa-print me-2"></i></button>
+            </td>
             </tr>
         </tbody>
     </table>

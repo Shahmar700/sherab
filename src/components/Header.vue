@@ -14,6 +14,7 @@
       </button>
       <div class="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          <!-- ===== Orders =====  -->
           <li class="nav-item dropdown">
             <RouterLink class="nav-link dropdown-toggle" to="/orders/add" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Sifarişlər
@@ -21,27 +22,29 @@
             </RouterLink>
             <ul class="dropdown-menu">
               <li><RouterLink class="dropdown-item" :to="{ name: 'add-order'}">Sifariş əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" :to="{name: 'all-orders'}">Sifarişlərim</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :to="{name: 'all-orders'}">Sifarişlərim <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li> 
+          <!-- ===== Products =====  -->
           <li class="nav-item dropdown">
             <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Məhsullar
               <i class="fa-solid fa-chevron-right dropdown-icon"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" to="/products/add">Məhsullar əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" to="/products">Məhsullarım</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :to="{name: 'add-products'}">Məhsullar əlavə et</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :to="{name: 'all-products'}">Məhsullarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li>
+          <!-- ===== Organizations =====  -->
           <li class="nav-item dropdown">
             <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Qurumlar
               <i class="fa-solid fa-chevron-right dropdown-icon"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" to="/organizations/add">Qurum əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" to="/organizations">Qurumlarım</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :to="{name: 'add-organizations'}">Qurum əlavə et</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :to="{name: 'all-organizations'}">Qurumlarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li>
         </ul>

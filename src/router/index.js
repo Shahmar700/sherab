@@ -23,24 +23,24 @@ const router = createRouter({
       component: () => import('../views/AddReceiptView.vue')
     },
     {
-      path: '/products',
-      name: 'products',
-      component: () => import('../views/AddProductsView.vue')
-    },
-    {
       path: '/products/add',
-      name: 'addProduct',
+      name: 'add-products',
       component: () => import('../views/AddProductsView.vue')
     },
     {
-      path: '/organizations',
-      name: 'organizations',
-      component: () => import('../views/AddOrganizationsView.vue')
+      path: '/products/all-products',
+      name: 'all-products',
+      component: () => import('../views/ProductsView.vue')
     },
     {
       path: '/organizations/add',
-      name: 'addOrganization',
+      name: 'add-organizations',
       component: () => import('../views/AddOrganizationsView.vue')
+    },
+    {
+      path: '/organizations/all-organizations',
+      name: 'all-organizations',
+      component: () => import('../views/OrganizationsView.vue')
     }
   ],
 })
