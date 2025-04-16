@@ -1,0 +1,154 @@
+
+label{
+    color: #800020;
+    font-weight: 600;
+}
+.customBtn {
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    border: 1px solid #800020;
+    border-radius: 7px;
+    padding: 8px 16px;
+    color: #800020;
+    font-weight: bold;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.customBtn::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #800020;
+    z-index: -1;
+    transition: top 0.4s ease;
+}
+
+.customBtn:hover::before {
+    top: 0;
+}
+
+.customBtn:hover {
+    color: white;
+    border: 1px solid #800020;
+}
+
+@media (max-width: 768px) {
+    .customBtn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+h3.pageHeading {
+    position: relative;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+h3.pageHeading::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* h3 başlığının altından xətt */
+    left: 0;
+    width: 0; /* Başlanğıcda genişlik 0 olacaq */
+    height: 3px;
+    background-color: #800020; /* Şərab rəngi */
+    transition: width 0.5s ease; /* Genişlənmə animasiyası */
+}
+
+h3.pageHeading.animated::after {
+    width: 100%; /* Animasiya zamanı genişlik 100% olacaq */
+}
+
+
+.btn.plus {
+    background-color: #ce1342;
+    color: white;
+    border-radius: 5px;
+    padding: 3px 12px;
+    font-size: 18px;
+    bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+    font-weight: 600;
+}
+.btn.plus:hover {
+    background-color: white;
+    color: #800020;
+    border: 1px solid #800020;
+    border-radius: 50%;
+}
+
+
+.modal-content img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .pageSubmitBtn {
+    padding: 7px 20px;
+  }
+  .pageSubmitBtn {
+    width: 100%;
+    display: block;
+    text-align: center; 
+    font-size: 17px;
+  }
+
+.form-control:focus,
+.custom-select:focus {
+  border-color: #800020 !important;
+  box-shadow: 0 0 0 0.25rem rgba(128, 0, 32, 0.25) !important;
+  outline: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #800020 !important;
+  box-shadow: 0 0 0 0.25rem rgba(128, 0, 32, 0.25) !important;
+  outline: none;
+}
+  /* @media screen and (max-width: 768px) {
+    .pageSubmitBtn {
+      width: 100%;
+      display: block;
+      text-align: center; 
+      font-size: 17px;
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .pageSubmitBtn {
+      width: auto; 
+      display: inline-block; 
+      font-size: 18px;
+    }
+  } */
+/* form-select üçün outline rəngini dəyişmək */
+/* .form-select:focus {
+    border-color: #800020; 
+    box-shadow: 0 0 0 0.25rem rgba(128, 0, 32, 0.25); 
+    outline: none; 
+  }
+
+   .form-control:focus {
+    border-color: #800020;
+    box-shadow: 0 0 0 0.25rem rgba(128, 0, 32, 0.25);
+    outline: none; 
+  }
+   */
+  /* option hover rəngini dəyişmək */
+  /* .form-select option:hover {
+    background-color: rgba(128, 0, 32, 0.1) !important; 
+    color: #800020 !important; 
+  }
+  
+
+  .form-select option:checked {
+    background-color: rgba(128, 0, 32, 0.2); 
+    color: #800020; 
+  }
+  */
