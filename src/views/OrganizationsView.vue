@@ -15,7 +15,7 @@
         <i class="fas fa-print me-2"></i> Çap et
       </button>
     </div>
-    <table class="table table-bordered table-hover table-striped table-borderless">
+    <table class="table table-bordered table-hover table-striped table-borderless" data-aos="zoom-out">
       <thead class="table-dark">
         <tr>
           <th>№</th>
@@ -64,9 +64,12 @@
             <button class="btn btn-success"><i class="fas fa-print me-2"></i></button>
           </td>
         </tr>
+        <tr v-if="filteredOrganizations.length === 0" data-aos="zoom-in">
+          <td colspan="9" class="text-center py-4">Axtarışa uyğun nəticə tapılmadı</td>
+        </tr>
       </tbody>
     </table>
-    <nav v-if="totalPages > 1">
+    <nav v-if="totalPages > 1" data-aos="zoom-in">
       <ul class="pagination justify-content-center">
         <!-- İlk səhifəyə keçid -->
         <li class="navArrow" :class="{ disabled: currentPage === 1 }">
