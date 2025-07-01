@@ -58,43 +58,43 @@
     <ul class="nav flex-column mt-4">
       <li class="sidebar-item border-bottom">
         <div class="sidebar-menu-group">
-          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+          <div :class="['sidebar-parent', { 'sidebar-active': isOrdersActive }]" @click="toggleSubmenu($event)">
             <span class="sidebar-link">
               Sifarişlər
               <i class="fa-solid fa-chevron-right sidebar-icon"></i>
             </span>
           </div>
-          <ul class="sidebar-submenu">
-            <li><RouterLink class="sidebar-submenu-link" :to="{ name: 'add-order'}" @click="toggleSidebar">Sifariş əlavə et</RouterLink></li>
-            <li><RouterLink class="sidebar-submenu-link":to="{name: 'all-orders'}" @click="toggleSidebar">Sifarişlərim</RouterLink></li>
+          <ul :class="['sidebar-submenu', { 'active': isOrdersActive }]">
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'add-order' }" :to="{ name: 'add-order'}" @click="toggleSidebar">Sifariş əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'all-orders' }" :to="{name: 'all-orders'}" @click="toggleSidebar">Sifarişlərim</RouterLink></li>
           </ul>
         </div>
       </li>
       <li class="sidebar-item border-bottom">
         <div class="sidebar-menu-group">
-          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+          <div :class="['sidebar-parent', { 'sidebar-active': isProductsActive }]" @click="toggleSubmenu($event)">
             <span class="sidebar-link">
               Məhsullar
               <i class="fa-solid fa-chevron-right sidebar-icon"></i>
             </span>
           </div>
-          <ul class="sidebar-submenu">
-            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'add-products'}" @click="toggleSidebar">Məhsullar əlavə et</RouterLink></li>
-            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'all-products'}" @click="toggleSidebar">Məhsullarım</RouterLink></li>
+          <ul :class="['sidebar-submenu', { 'active': isProductsActive }]">
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'add-products' }" :to="{name: 'add-products'}" @click="toggleSidebar">Məhsullar əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'all-products' }" :to="{name: 'all-products'}" @click="toggleSidebar">Məhsullarım</RouterLink></li>
           </ul>
         </div>
       </li>
       <li class="sidebar-item border-bottom">
         <div class="sidebar-menu-group">
-          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+          <div :class="['sidebar-parent', { 'sidebar-active': isOrganizationsActive }]" @click="toggleSubmenu($event)">
             <span class="sidebar-link">
               Qurumlar
               <i class="fa-solid fa-chevron-right sidebar-icon"></i>
             </span>
           </div>
-          <ul class="sidebar-submenu">
-            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'add-organizations'}" @click="toggleSidebar">Qurum əlavə et</RouterLink></li>
-            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'all-organizations'}" @click="toggleSidebar">Qurumlarım</RouterLink></li>
+          <ul :class="['sidebar-submenu', { 'active': isOrganizationsActive }]">
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'add-organizations' }" :to="{name: 'add-organizations'}" @click="toggleSidebar">Qurum əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link" :class="{ 'active': $route.name === 'all-organizations' }" :to="{name: 'all-organizations'}" @click="toggleSidebar">Qurumlarım</RouterLink></li>
           </ul>
         </div>
       </li>
@@ -103,9 +103,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
 const isSidebarOpen = ref(false)
+
+// Computed properties to check which route is active
+const isOrdersActive = computed(() => {
+  return route.path.includes('/orders')
+})
+
+const isProductsActive = computed(() => {
+  return route.path.includes('/products')
+})
+
+const isOrganizationsActive = computed(() => {
+  return route.path.includes('/organizations')
+})
 
 function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
@@ -129,6 +144,25 @@ function toggleSubmenu(event) {
     icon.style.transform = 'rotate(0deg)';
   }
 }
+
+onMounted(() => {
+  // Automatically open the active section's submenu
+  if (isOrdersActive.value || isProductsActive.value || isOrganizationsActive.value) {
+    // Add a small delay to ensure DOM is fully loaded
+    setTimeout(() => {
+      const sidebar = document.getElementById('sidebar');
+      // Find active submenu that should be open by default
+      const activeSubmenus = sidebar.querySelectorAll('.sidebar-submenu.active');
+      activeSubmenus.forEach(submenu => {
+        // Find the parent icon and rotate it
+        const parentIcon = submenu.previousElementSibling.querySelector('.sidebar-icon');
+        if (parentIcon) {
+          parentIcon.style.transform = 'rotate(90deg)';
+        }
+      });
+    }, 100);
+  }
+})
 </script>
 
 <style scoped>
@@ -234,14 +268,28 @@ function toggleSubmenu(event) {
 
 .sidebar-menu-group {
   width: 100%;
+  margin-top: 5px;
 }
 
 .sidebar-parent {
-  padding: 10px 0;
+  padding: 5px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+
+/* Active parent menu styling */
+.sidebar-parent.sidebar-active {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.sidebar-parent.sidebar-active .sidebar-icon {
+  transform: rotate(90deg);
 }
 
 .sidebar-link {
@@ -252,6 +300,8 @@ function toggleSubmenu(event) {
   width: 100%;
   font-weight: 500;
   text-decoration: none;
+  padding: 5px 10px;
+  font-size: 18px;
 }
 
 .sidebar-icon {
@@ -281,6 +331,15 @@ function toggleSubmenu(event) {
   text-decoration: none;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  border-left: 3px solid transparent;
+}
+
+/* Active submenu link styling */
+.sidebar-submenu-link.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 3px solid #fff;
+  font-weight: bold;
+  padding-left: 25px;
 }
 
 .sidebar-submenu-link:hover {
