@@ -19,7 +19,7 @@
         <i class="fas fa-print me-2"></i> Çap et
     </button>
     <div class="table-responsive">
-         <table class="table table-bordered table-hover table-striped table-borderless" data-aos="zoom-out">
+         <table class="table table-bordered table-hover table-striped table-borderless" data-aos="zoom-in">
       <thead class="table-dark">
         <tr>
           <th>№</th>
