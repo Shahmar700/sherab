@@ -56,39 +56,45 @@
   <div :class="['sidebar', { open: isSidebarOpen }]" id="sidebar">
     <button class="close-btn" @click="toggleSidebar">&times;</button>
     <ul class="nav flex-column mt-4">
-      <li class="nav-item border-bottom">
-        <div class="dropdown">
-          <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sifarişlər
-            <i class="fa-solid fa-chevron-right dropdown-icon"></i>
-          </RouterLink>
-          <ul class="dropdown-menu">
-            <li><RouterLink class="dropdown-item" to="/orders/add" @click="toggleSidebar">Sifariş əlavə et</RouterLink></li>
-            <li><RouterLink class="dropdown-item" to="/orders" @click="toggleSidebar">Sifarişlərim</RouterLink></li>
+      <li class="sidebar-item border-bottom">
+        <div class="sidebar-menu-group">
+          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+            <span class="sidebar-link">
+              Sifarişlər
+              <i class="fa-solid fa-chevron-right sidebar-icon"></i>
+            </span>
+          </div>
+          <ul class="sidebar-submenu">
+            <li><RouterLink class="sidebar-submenu-link" :to="{ name: 'add-order'}" @click="toggleSidebar">Sifariş əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link":to="{name: 'all-orders'}" @click="toggleSidebar">Sifarişlərim</RouterLink></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item border-bottom">
-        <div class="dropdown">
-          <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Məhsullar
-            <i class="fa-solid fa-chevron-right dropdown-icon"></i>
-          </RouterLink>
-          <ul class="dropdown-menu">
-            <li><RouterLink class="dropdown-item" to="/products/add" @click="toggleSidebar">Məhsullar əlavə et</RouterLink></li>
-            <li><RouterLink class="dropdown-item" to="/products" @click="toggleSidebar">Məhsullarım</RouterLink></li>
+      <li class="sidebar-item border-bottom">
+        <div class="sidebar-menu-group">
+          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+            <span class="sidebar-link">
+              Məhsullar
+              <i class="fa-solid fa-chevron-right sidebar-icon"></i>
+            </span>
+          </div>
+          <ul class="sidebar-submenu">
+            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'add-products'}" @click="toggleSidebar">Məhsullar əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'all-products'}" @click="toggleSidebar">Məhsullarım</RouterLink></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item border-bottom">
-        <div class="dropdown">
-          <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Qurumlar
-            <i class="fa-solid fa-chevron-right dropdown-icon"></i>
-          </RouterLink>
-          <ul class="dropdown-menu">
-            <li><RouterLink class="dropdown-item" to="/organizations/add" @click="toggleSidebar">Qurum əlavə et</RouterLink></li>
-            <li><RouterLink class="dropdown-item" to="/organizations" @click="toggleSidebar">Qurumlarım</RouterLink></li>
+      <li class="sidebar-item border-bottom">
+        <div class="sidebar-menu-group">
+          <div class="sidebar-parent" @click="toggleSubmenu($event)">
+            <span class="sidebar-link">
+              Qurumlar
+              <i class="fa-solid fa-chevron-right sidebar-icon"></i>
+            </span>
+          </div>
+          <ul class="sidebar-submenu">
+            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'add-organizations'}" @click="toggleSidebar">Qurum əlavə et</RouterLink></li>
+            <li><RouterLink class="sidebar-submenu-link" :to="{name: 'all-organizations'}" @click="toggleSidebar">Qurumlarım</RouterLink></li>
           </ul>
         </div>
       </li>
@@ -105,23 +111,24 @@ function toggleSidebar() {
   isSidebarOpen.value = !isSidebarOpen.value
 }
 
-onMounted(() => {
-  // Sidebar dropdown-lar üçün icon fırlanması
-  const sidebar = document.getElementById('sidebar');
-  document.addEventListener('click', (event) => {
-    const dropdownToggles = sidebar.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach((toggle) => {
-      const dropdownMenu = toggle.nextElementSibling; // Dropdown menu
-      const icon = toggle.querySelector('.dropdown-icon'); // Dropdown icon
-
-      if (dropdownMenu && dropdownMenu.classList.contains('show')) {
-        icon.style.transform = 'rotate(90deg)'; // Açıq vəziyyətdə 90 dərəcə
-      } else {
-        icon.style.transform = 'rotate(0deg)'; // Bağlı vəziyyətdə 0 dərəcə
-      }
-    });
-  });
-});
+function toggleSubmenu(event) {
+  // Get the parent element
+  const parent = event.currentTarget;
+  // Find the submenu
+  const submenu = parent.nextElementSibling;
+  // Find the icon
+  const icon = parent.querySelector('.sidebar-icon');
+  
+  // Toggle the active class for animation/transition
+  submenu.classList.toggle('active');
+  
+  // Rotate the icon when submenu is active
+  if (submenu.classList.contains('active')) {
+    icon.style.transform = 'rotate(90deg)';
+  } else {
+    icon.style.transform = 'rotate(0deg)';
+  }
+}
 </script>
 
 <style scoped>
@@ -220,64 +227,65 @@ onMounted(() => {
   color: #800020;
 }
 
-.sidebar .dropdown-menu {
+.sidebar-item {
   position: relative;
-  float: none;
   width: 100%;
-  margin-top: 0;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  display: none;
-  transition: all 0.3s ease;
 }
 
-.sidebar .dropdown-menu.show {
+.sidebar-menu-group {
+  width: 100%;
+}
+
+.sidebar-parent {
+  padding: 10px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-link {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.sidebar-icon {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.sidebar-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.sidebar-submenu.active {
+  max-height: 200px; /* Adjust based on content */
+}
+
+.sidebar-submenu-link {
+  padding: 8px 0 8px 20px;
+  color: #fff;
   display: block;
-}
-
-.sidebar .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
-  transform: rotate(90deg);
-}
-
-.sidebar .dropdown-item {
-  padding-left: 40px;
-  color: #fff;
+  text-decoration: none;
   transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
-.sidebar .dropdown-item:hover {
+.sidebar-submenu-link:hover {
+  padding-left: 25px;
   background-color: rgba(255,255,255,0.1);
-  color: #fff;
-  padding-left: 45px;
-}
-
-#sidebar .dropdown-menu {
-  background-color: #f8f9fa;
-  position: relative;
-  height: 0px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-}
-
-#sidebar .dropdown-menu.show {
-  height: fit-content;
-  opacity: 1;
-  visibility: visible;
-}
-
-#sidebar .dropdown-menu a {
-  color: #800020 !important;
-  transition: all 0.3s ease;
-}
-
-#sidebar .dropdown-menu a:hover {
-  padding-left: 45px;
-}
-
-#sidebar .dropdown-toggle[aria-expanded="true"] .dropdown-icon {
-  transform: rotate(90deg);
 }
 
 @media (min-width: 768px) {
