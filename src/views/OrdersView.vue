@@ -10,11 +10,15 @@
       />
         </div>
     <!-- PRINT BTN  -->
-      <div class="d-flex justify-content-end mb-3">
-        <button @click="printTable" class="btn btn-primary">
-          <i class="fas fa-print me-2"></i> Çap et
-        </button>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="d-md-none scroll-indicator">
+        <small><i class="fas fa-arrows-left-right me-1"></i> Cədvəli tam görmək üçün sağa-sola sürüşdürün</small>
       </div>
+    </div>
+    <button @click="printTable" class="prntBtn btn btn-primary border">
+        <i class="fas fa-print me-2"></i> Çap et
+    </button>
+    <div class="table-responsive">
     <table class="table table-bordered table-hover table-striped table-borderless" data-aos="zoom-out">
         <thead class="table-dark">
             <tr>
@@ -88,6 +92,7 @@
             </tr>
         </tbody>
     </table>
+</div>
     <nav v-if="totalPages > 1" data-aos="zoom-in">
         <ul class="pagination justify-content-center">
             <!-- İlk səhifəyə keçid -->
