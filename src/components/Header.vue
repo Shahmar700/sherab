@@ -15,36 +15,36 @@
       <div class="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <!-- ===== Orders =====  -->
-          <li class="nav-item dropdown">
-            <RouterLink class="nav-link dropdown-toggle" to="/orders/add" role="button" data-bs-hover="dropdown" aria-expanded="false">
+          <li class="nav-item dropdown" :class="{ 'active-parent': isOrdersActive }">
+            <RouterLink class="nav-link dropdown-toggle" :class="{ 'active': isOrdersActive }" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Sifarişlər
-              <i class="fa-solid fa-chevron-right dropdown-icon"></i>
+              <i class="fa-solid fa-chevron-right dropdown-icon" :class="{ 'rotated': isOrdersActive }"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" :to="{ name: 'add-order'}">Sifariş əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" :to="{name: 'all-orders'}">Sifarişlərim <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'add-order' }" :to="{ name: 'add-order'}">Sifariş əlavə et</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'all-orders' }" :to="{name: 'all-orders'}">Sifarişlərim <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li> 
           <!-- ===== Products =====  -->
-          <li class="nav-item dropdown">
-            <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
+          <li class="nav-item dropdown" :class="{ 'active-parent': isProductsActive }">
+            <RouterLink class="nav-link dropdown-toggle" :class="{ 'active': isProductsActive }" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Məhsullar
-              <i class="fa-solid fa-chevron-right dropdown-icon"></i>
+              <i class="fa-solid fa-chevron-right dropdown-icon" :class="{ 'rotated': isProductsActive }"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" :to="{name: 'add-products'}">Məhsullar əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" :to="{name: 'all-products'}">Məhsullarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'add-products' }" :to="{name: 'add-products'}">Məhsullar əlavə et</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'all-products' }" :to="{name: 'all-products'}">Məhsullarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li>
           <!-- ===== Organizations =====  -->
-          <li class="nav-item dropdown">
-            <RouterLink class="nav-link dropdown-toggle" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
+          <li class="nav-item dropdown" :class="{ 'active-parent': isOrganizationsActive }">
+            <RouterLink class="nav-link dropdown-toggle" :class="{ 'active': isOrganizationsActive }" to="#" role="button" data-bs-hover="dropdown" aria-expanded="false">
               Qurumlar
-              <i class="fa-solid fa-chevron-right dropdown-icon"></i>
+              <i class="fa-solid fa-chevron-right dropdown-icon" :class="{ 'rotated': isOrganizationsActive }"></i>
             </RouterLink>
             <ul class="dropdown-menu">
-              <li><RouterLink class="dropdown-item" :to="{name: 'add-organizations'}">Qurum əlavə et</RouterLink></li>
-              <li><RouterLink class="dropdown-item" :to="{name: 'all-organizations'}">Qurumlarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'add-organizations' }" :to="{name: 'add-organizations'}">Qurum əlavə et</RouterLink></li>
+              <li><RouterLink class="dropdown-item" :class="{ 'active': $route.name === 'all-organizations' }" :to="{name: 'all-organizations'}">Qurumlarım <i class="fa-solid fa-table text-secondary"></i></RouterLink></li>
             </ul>
           </li>
         </ul>
@@ -160,6 +160,19 @@ onMounted(() => {
           parentIcon.style.transform = 'rotate(90deg)';
         }
       });
+      
+      // For large screen header, ensure the dropdown is open if an item is active
+      if (isOrdersActive.value || isProductsActive.value || isOrganizationsActive.value) {
+        // This makes sure dropdown items are visible when directly accessing a subpage
+        const navbarDropdowns = document.querySelectorAll('#navbarNav .dropdown');
+        navbarDropdowns.forEach(dropdown => {
+          const isActive = dropdown.classList.contains('active-parent');
+          if (isActive && window.innerWidth >= 992) {
+            dropdown.classList.add('show');
+            dropdown.querySelector('.dropdown-menu')?.classList.add('show');
+          }
+        });
+      }
     }, 100);
   }
 })
@@ -182,7 +195,43 @@ onMounted(() => {
 
 .nav-link.active {
   font-weight: bold;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.9) !important;
+  position: relative;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Header active menu items */
+.active-parent > .nav-link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.dropdown-item.active {
+  background-color: rgba(128, 0, 32, 0.1) !important;
+  color: #800020 !important;
+  font-weight: bold;
+  position: relative;
+}
+
+.dropdown-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #800020;
 }
 
 /* Sidebar styles */
@@ -239,6 +288,10 @@ onMounted(() => {
   transform: rotate(0deg);
   transition: transform 0.3s ease;
   font-size: 12px;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(90deg);
 }
 
 .dropdown-toggle::after {
@@ -354,6 +407,29 @@ onMounted(() => {
   
   .dropdown:hover .dropdown-toggle .dropdown-icon {
     transform: rotate(90deg);
+  }
+  
+  /* Header dropdown hover effects */
+  #navbarNav .nav-item.dropdown:hover .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  #navbarNav .nav-item.dropdown:hover .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+  }
+  
+  #navbarNav .dropdown-item:hover i {
+    transform: translateX(3px);
+    transition: transform 0.3s ease;
   }
 }
 
